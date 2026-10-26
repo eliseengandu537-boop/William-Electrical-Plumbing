@@ -1,5 +1,15 @@
 const phone = '27839937622';
 const whatsapp = (message) => `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+function createArrowIcon() {
+  const namespace = 'http://www.w3.org/2000/svg';
+  const icon = document.createElementNS(namespace, 'svg');
+  const path = document.createElementNS(namespace, 'path');
+  const attributes = { class: 'arrow-icon', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '1.8', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true', focusable: 'false' };
+  Object.entries(attributes).forEach(([name, value]) => icon.setAttribute(name, value));
+  path.setAttribute('d', 'M5 19 19 5M5 5h14v14');
+  icon.appendChild(path);
+  return icon;
+}
 document.getElementById('year').textContent = new Date().getFullYear();
 const menu = document.querySelector('.menu-toggle');
 const navigation = document.getElementById('navigation');
@@ -147,7 +157,8 @@ function reply(question) {
   else if (/ai|human|bot/.test(q)) answer = 'I’m a demo assistant with automated answers to common questions. To talk to a person, contact William directly on WhatsApp or call 083 993 7622.';
   else answer = 'I can help with electrical or plumbing enquiries, opening hours, the address and how to request a quote. For advice specific to your job, please contact William directly.';
   const bubble = addMessage(answer, 'bot');
-  const link = document.createElement('a'); link.href = whatsapp(`Hi William, I have an enquiry: ${question}`); link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = 'Message William on WhatsApp ↗';
+  const link = document.createElement('a'); link.href = whatsapp(`Hi William, I have an enquiry: ${question}`); link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = 'Message William on WhatsApp ';
+  link.appendChild(createArrowIcon());
   bubble.appendChild(document.createElement('br')); bubble.appendChild(link); messages.scrollTop = messages.scrollHeight;
 }
 document.getElementById('chat-form').addEventListener('submit', event => { event.preventDefault(); const text = chatInput.value.trim(); if (text) { reply(text); chatInput.value = ''; chatInput.focus(); } });
